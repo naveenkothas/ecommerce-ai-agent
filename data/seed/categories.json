@@ -1,0 +1,100 @@
+{
+  "version": "1.0.0",
+  "lastModified": "2026-01-15T01:30:18.593Z",
+  "data": [
+    {
+      "id": "c02118d2-509f-4a3b-ba73-e25c0c92a9eb",
+      "name": "Electronics",
+      "slug": "electronics",
+      "description": "Electronic devices and accessories",
+      "position": 1,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "3b784e1e-6708-49f3-bf01-84b30ebe4baf",
+      "name": "Clothing",
+      "slug": "clothing",
+      "description": "Apparel and fashion items",
+      "position": 2,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "8f35259a-85fe-43d7-8325-94da8cd9659f",
+      "name": "Home & Garden",
+      "slug": "home-garden",
+      "description": "Home decor and garden supplies",
+      "position": 3,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "e72059d7-ef3a-4eca-8b57-4036d0dc0d10",
+      "name": "Sports & Outdoors",
+      "slug": "sports-outdoors",
+      "description": "Sporting goods and outdoor equipment",
+      "position": 4,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "f254b72c-f653-46bb-a45f-f02b100473e8",
+      "name": "Books",
+      "slug": "books",
+      "description": "Books, e-books, and audiobooks",
+      "position": 5,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "856ba0f8-6ed2-4896-9563-1b018a96190e",
+      "name": "Smartphones",
+      "slug": "smartphones",
+      "description": "Mobile phones and accessories",
+      "parentId": "c02118d2-509f-4a3b-ba73-e25c0c92a9eb",
+      "position": 1,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "c8c4d16a-ba87-48dc-8994-5bc3679bc71f",
+      "name": "Laptops",
+      "slug": "laptops",
+      "description": "Notebook computers",
+      "parentId": "c02118d2-509f-4a3b-ba73-e25c0c92a9eb",
+      "position": 2,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "f5d378ab-3bbe-4631-9e1f-c05e904bdd49",
+      "name": "Men's Clothing",
+      "slug": "mens-clothing",
+      "description": "Men's fashion and apparel",
+      "parentId": "3b784e1e-6708-49f3-bf01-84b30ebe4baf",
+      "position": 1,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "67734259-56b8-458d-867c-0080d9af62f6",
+      "name": "Women's Clothing",
+      "slug": "womens-clothing",
+      "description": "Women's fashion and apparel",
+      "parentId": "3b784e1e-6708-49f3-bf01-84b30ebe4baf",
+      "position": 2,
+      "isActive": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z"
+    }
+  ]
+}

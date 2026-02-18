@@ -1,0 +1,534 @@
+{
+  "version": "1.0.0",
+  "lastModified": "2026-01-15T01:30:18.594Z",
+  "data": [
+    {
+      "id": "bd3d147c-bb03-4ad4-a2fe-8df371a43696",
+      "name": "Premium Wireless Headphones",
+      "slug": "premium-wireless-headphones",
+      "description": "High-quality wireless headphones with active noise cancellation, 30-hour battery life, and premium comfort.",
+      "shortDescription": "Wireless ANC headphones with 30hr battery",
+      "status": "active",
+      "type": "physical",
+      "vendor": "AudioTech",
+      "brand": "SoundMax",
+      "tags": [
+        "audio",
+        "wireless",
+        "noise-cancelling",
+        "premium"
+      ],
+      "categoryIds": [
+        "c02118d2-509f-4a3b-ba73-e25c0c92a9eb"
+      ],
+      "images": [
+        {
+          "id": "d5dc2bf2-b1b5-45c6-a4a0-8f50717b7553",
+          "url": "/images/headphones.png",
+          "altText": "Premium Wireless Headphones",
+          "position": 0,
+          "isPrimary": true
+        }
+      ],
+      "variants": [
+        {
+          "id": "7662dc59-f06c-4efe-b769-bac92e201133",
+          "productId": "bd3d147c-bb03-4ad4-a2fe-8df371a43696",
+          "sku": "HP-BLK-001",
+          "barcode": "123456789012",
+          "name": "Black",
+          "price": 299.99,
+          "compareAtPrice": 349.99,
+          "costPrice": 150,
+          "weight": 0.5,
+          "weightUnit": "lb",
+          "options": {
+            "color": "Black"
+          },
+          "isDefault": true,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "1c75b88e-753e-4c23-a39c-7aa0a74d5c02",
+          "productId": "bd3d147c-bb03-4ad4-a2fe-8df371a43696",
+          "sku": "HP-WHT-001",
+          "barcode": "123456789013",
+          "name": "White",
+          "price": 299.99,
+          "compareAtPrice": 349.99,
+          "costPrice": 150,
+          "weight": 0.5,
+          "weightUnit": "lb",
+          "options": {
+            "color": "White"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "e94cb71a-3c47-4816-a269-3f77b7a932e4",
+          "productId": "bd3d147c-bb03-4ad4-a2fe-8df371a43696",
+          "sku": "HP-SLV-001",
+          "barcode": "123456789014",
+          "name": "Silver",
+          "price": 319.99,
+          "compareAtPrice": 369.99,
+          "costPrice": 160,
+          "weight": 0.5,
+          "weightUnit": "lb",
+          "options": {
+            "color": "Silver"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        }
+      ],
+      "seoTitle": "Premium Wireless Headphones | SoundMax",
+      "seoDescription": "Experience superior audio with our premium wireless headphones featuring active noise cancellation.",
+      "isGiftCard": false,
+      "requiresShipping": true,
+      "isTaxable": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z",
+      "publishedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "71b4f2ee-4e7b-4919-b9f9-f55ccc98315c",
+      "name": "Smart Fitness Watch",
+      "slug": "smart-fitness-watch",
+      "description": "Advanced fitness tracker with heart rate monitoring, GPS, sleep tracking, and 7-day battery life.",
+      "status": "active",
+      "type": "physical",
+      "vendor": "TechWear",
+      "brand": "FitPro",
+      "tags": [
+        "fitness",
+        "smartwatch",
+        "health",
+        "gps"
+      ],
+      "categoryIds": [
+        "c02118d2-509f-4a3b-ba73-e25c0c92a9eb"
+      ],
+      "images": [
+        {
+          "id": "2b016061-3c6c-4f3a-b643-b178401a6702",
+          "url": "/images/smart_fitness_watch.png",
+          "altText": "Smart Fitness Watch",
+          "position": 0,
+          "isPrimary": true
+        }
+      ],
+      "variants": [
+        {
+          "id": "0f671173-4ee5-4e14-804e-026238756281",
+          "productId": "71b4f2ee-4e7b-4919-b9f9-f55ccc98315c",
+          "sku": "FW-BLK-SM",
+          "name": "Black - Small",
+          "price": 199.99,
+          "compareAtPrice": 249.99,
+          "costPrice": 80,
+          "options": {
+            "color": "Black",
+            "size": "Small"
+          },
+          "isDefault": true,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "ac826b66-f4cc-46c8-84ae-7cb806e5a81d",
+          "productId": "71b4f2ee-4e7b-4919-b9f9-f55ccc98315c",
+          "sku": "FW-BLK-LG",
+          "name": "Black - Large",
+          "price": 199.99,
+          "compareAtPrice": 249.99,
+          "costPrice": 80,
+          "options": {
+            "color": "Black",
+            "size": "Large"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "dcef2def-1c26-41d6-bea0-b3f93ea2771f",
+          "productId": "71b4f2ee-4e7b-4919-b9f9-f55ccc98315c",
+          "sku": "FW-BLU-SM",
+          "name": "Blue - Small",
+          "price": 199.99,
+          "costPrice": 80,
+          "options": {
+            "color": "Blue",
+            "size": "Small"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "4edf3a07-8322-4367-a4af-36dd90146d9f",
+          "productId": "71b4f2ee-4e7b-4919-b9f9-f55ccc98315c",
+          "sku": "FW-BLU-LG",
+          "name": "Blue - Large",
+          "price": 199.99,
+          "costPrice": 80,
+          "options": {
+            "color": "Blue",
+            "size": "Large"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        }
+      ],
+      "isGiftCard": false,
+      "requiresShipping": true,
+      "isTaxable": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z",
+      "publishedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+      "name": "Classic Cotton T-Shirt",
+      "slug": "classic-cotton-tshirt",
+      "description": "100% organic cotton t-shirt with a comfortable fit. Pre-shrunk and durable.",
+      "status": "active",
+      "type": "physical",
+      "vendor": "BasicWear",
+      "brand": "EcoThreads",
+      "tags": [
+        "cotton",
+        "basic",
+        "organic",
+        "comfortable"
+      ],
+      "categoryIds": [
+        "3b784e1e-6708-49f3-bf01-84b30ebe4baf"
+      ],
+      "images": [
+        {
+          "id": "d61331a0-7625-4530-aa80-d49d2bba9389",
+          "url": "/images/classic_cotton_tshirt.png",
+          "altText": "Classic Cotton T-Shirt",
+          "position": 0,
+          "isPrimary": true
+        }
+      ],
+      "variants": [
+        {
+          "id": "b3e20ac9-4f25-4ecd-8660-6ead18c19ed9",
+          "productId": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+          "sku": "TS-NVY-S",
+          "name": "Navy - Small",
+          "price": 29.99,
+          "costPrice": 8,
+          "weight": 0.3,
+          "weightUnit": "lb",
+          "options": {
+            "color": "Navy",
+            "size": "S"
+          },
+          "isDefault": true,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "5c61dec9-ff51-40ce-8214-6dd1ba5c522e",
+          "productId": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+          "sku": "TS-NVY-M",
+          "name": "Navy - Medium",
+          "price": 29.99,
+          "costPrice": 8,
+          "weight": 0.35,
+          "weightUnit": "lb",
+          "options": {
+            "color": "Navy",
+            "size": "M"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "f29411dc-a8b9-4550-a048-9f033009788e",
+          "productId": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+          "sku": "TS-NVY-L",
+          "name": "Navy - Large",
+          "price": 29.99,
+          "costPrice": 8,
+          "weight": 0.4,
+          "weightUnit": "lb",
+          "options": {
+            "color": "Navy",
+            "size": "L"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "db3b58c7-ed20-4e37-b814-18e163c3a420",
+          "productId": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+          "sku": "TS-WHT-S",
+          "name": "White - Small",
+          "price": 29.99,
+          "costPrice": 8,
+          "weight": 0.3,
+          "weightUnit": "lb",
+          "options": {
+            "color": "White",
+            "size": "S"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "7b8c8610-7d41-458b-a40a-fe897e3c0ed9",
+          "productId": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+          "sku": "TS-WHT-M",
+          "name": "White - Medium",
+          "price": 29.99,
+          "costPrice": 8,
+          "weight": 0.35,
+          "weightUnit": "lb",
+          "options": {
+            "color": "White",
+            "size": "M"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "e1bd0c01-cb2b-4ae7-ae9d-c5f824980e41",
+          "productId": "cc93eb80-1b7d-4d67-9324-8f5d8ab72fcb",
+          "sku": "TS-WHT-L",
+          "name": "White - Large",
+          "price": 29.99,
+          "costPrice": 8,
+          "weight": 0.4,
+          "weightUnit": "lb",
+          "options": {
+            "color": "White",
+            "size": "L"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        }
+      ],
+      "isGiftCard": false,
+      "requiresShipping": true,
+      "isTaxable": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z",
+      "publishedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+      "name": "Running Shoes Pro",
+      "slug": "running-shoes-pro",
+      "description": "Professional running shoes with advanced cushioning and breathable mesh upper.",
+      "status": "active",
+      "type": "physical",
+      "vendor": "SportGear",
+      "brand": "SpeedRun",
+      "tags": [
+        "running",
+        "shoes",
+        "athletic",
+        "cushioned"
+      ],
+      "categoryIds": [
+        "e72059d7-ef3a-4eca-8b57-4036d0dc0d10"
+      ],
+      "images": [
+        {
+          "id": "12a6efd7-7d5f-4bb9-b246-b5ee4c2e03e4",
+          "url": "/images/running_shoes_pro.png",
+          "altText": "Running Shoes Pro",
+          "position": 0,
+          "isPrimary": true
+        }
+      ],
+      "variants": [
+        {
+          "id": "017fba66-23e7-48c5-b498-7dbf8684bc59",
+          "productId": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+          "sku": "RS-GRY-8",
+          "name": "Gray - Size 8",
+          "price": 149.99,
+          "compareAtPrice": 179.99,
+          "costPrice": 60,
+          "options": {
+            "color": "Gray",
+            "size": "8"
+          },
+          "isDefault": true,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "70659d8d-3bbe-4248-b5fe-ca71c57174e3",
+          "productId": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+          "sku": "RS-GRY-9",
+          "name": "Gray - Size 9",
+          "price": 149.99,
+          "compareAtPrice": 179.99,
+          "costPrice": 60,
+          "options": {
+            "color": "Gray",
+            "size": "9"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "187d3133-e51b-48f5-8f40-db5b82548338",
+          "productId": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+          "sku": "RS-GRY-10",
+          "name": "Gray - Size 10",
+          "price": 149.99,
+          "compareAtPrice": 179.99,
+          "costPrice": 60,
+          "options": {
+            "color": "Gray",
+            "size": "10"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "2b3bcf54-4088-420e-8257-bc7c381f61e2",
+          "productId": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+          "sku": "RS-BLU-8",
+          "name": "Blue - Size 8",
+          "price": 149.99,
+          "costPrice": 60,
+          "options": {
+            "color": "Blue",
+            "size": "8"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "a85299f2-0382-436e-bf7a-aa5a88f7b4e7",
+          "productId": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+          "sku": "RS-BLU-9",
+          "name": "Blue - Size 9",
+          "price": 149.99,
+          "costPrice": 60,
+          "options": {
+            "color": "Blue",
+            "size": "9"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "6a7ce165-20f2-445d-85f1-37de788713cf",
+          "productId": "d57ec75d-26fa-44e6-a423-c7769eaa5159",
+          "sku": "RS-BLU-10",
+          "name": "Blue - Size 10",
+          "price": 149.99,
+          "costPrice": 60,
+          "options": {
+            "color": "Blue",
+            "size": "10"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        }
+      ],
+      "isGiftCard": false,
+      "requiresShipping": true,
+      "isTaxable": true,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z",
+      "publishedAt": "2026-01-15T01:30:18.593Z"
+    },
+    {
+      "id": "b410b442-1661-4286-b365-402c9c8dbfe4",
+      "name": "Digital Gift Card",
+      "slug": "digital-gift-card",
+      "description": "Digital gift card that can be used for any purchase on our store.",
+      "status": "active",
+      "type": "digital",
+      "vendor": "Internal",
+      "tags": [
+        "gift-card",
+        "digital"
+      ],
+      "categoryIds": [],
+      "images": [
+        {
+          "id": "449ce7ed-091e-4c36-acbd-7adb6a9d0e54",
+          "url": "/images/gift_card.png",
+          "altText": "Digital Gift Card",
+          "position": 0,
+          "isPrimary": true
+        }
+      ],
+      "variants": [
+        {
+          "id": "3b0e3a43-7969-4add-8687-c608144880d9",
+          "productId": "b410b442-1661-4286-b365-402c9c8dbfe4",
+          "sku": "GC-25",
+          "name": "$25 Gift Card",
+          "price": 25,
+          "options": {
+            "value": "$25"
+          },
+          "isDefault": true,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "0e9b6076-8868-47c1-8d9d-6beac6e89584",
+          "productId": "b410b442-1661-4286-b365-402c9c8dbfe4",
+          "sku": "GC-50",
+          "name": "$50 Gift Card",
+          "price": 50,
+          "options": {
+            "value": "$50"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        },
+        {
+          "id": "351fbcad-35a0-4dde-95bb-dbb5b31041e5",
+          "productId": "b410b442-1661-4286-b365-402c9c8dbfe4",
+          "sku": "GC-100",
+          "name": "$100 Gift Card",
+          "price": 100,
+          "options": {
+            "value": "$100"
+          },
+          "isDefault": false,
+          "createdAt": "2026-01-15T01:30:18.593Z",
+          "updatedAt": "2026-01-15T01:30:18.593Z"
+        }
+      ],
+      "isGiftCard": true,
+      "requiresShipping": false,
+      "isTaxable": false,
+      "createdAt": "2026-01-15T01:30:18.593Z",
+      "updatedAt": "2026-01-15T01:30:18.593Z",
+      "publishedAt": "2026-01-15T01:30:18.593Z"
+    }
+  ]
+}
