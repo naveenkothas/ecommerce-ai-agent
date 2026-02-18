@@ -111,21 +111,35 @@ Store Backend API  (Express — /api/orders, /api/products)
 
 ### Orders
 
-| Action | Example prompt |
+| Tool | Example prompt |
 |---|---|
-| Look up order | `Show me order ORD-1043` |
-| Update status | `Mark order ORD-1043 as shipped` |
-| Cancel order | `Cancel order ORD-1043` |
+| List orders | `Show me all pending orders` |
+| Order statistics | `What is our total revenue and how many orders do we have?` |
+| Look up order | `Check the details of order ORD-1004` |
+| Update status | `Mark order ORD-1003 as shipped` |
+| Cancel order | `Cancel order ORD-1008 — customer changed their mind` |
+| Refund order | `Issue a refund for order ORD-1005, customer request` |
+| Add note | `Add a note to order ORD-1004: awaiting customer callback` |
 
 Valid order statuses: `pending`, `confirmed`, `processing`, `on_hold`, `shipped`, `partially_shipped`, `delivered`, `completed`, `cancelled`, `refunded`, `partially_refunded`
 
 ### Products
 
-| Action | Example prompt |
+| Tool | Example prompt |
 |---|---|
-| Search products | `Find the Wireless Headphones product` |
-| Update price | `Change the price of SKU-001 to $49.99` |
-| Update description | `Update the description of SKU-001 to "Premium wireless audio"` |
+| Search / list all | `Show me all products and their SKUs` |
+| Update price | `Change the price of RS-GRY-9 to $129.99` |
+| Update description | `Update the description of the Wireless Headphones` |
+
+### Inventory
+
+| Tool | Example prompt |
+|---|---|
+| Check stock levels | `How many units of HP-BLK-001 are in stock?` |
+| Check by product name | `What is the stock level for the Smart Fitness Watch?` |
+| Adjust inventory | `We received 50 units of TS-NVY-M — add them to inventory` |
+| Set exact quantity | `Set the stock of FW-BLK-SM to 100 units` |
+| Low-stock report | `Which products are running low and need restocking?` |
 
 ---
 
@@ -145,11 +159,13 @@ Agent tool tests are in `src/__tests__/agent.test.ts`. They mock the store clien
 
 ## Known Limitations
 
-- **Session storage**: Conversation history is held in browser memory (`useChat`). Refreshing the page clears the chat.
-- **No authentication** on `POST /api/agent/chat`. In production this should require admin auth.
-- **Scope**: Only orders (status, cancel) and products (description, price) are supported. Promotions, refunds, shipments etc. are out of scope.
-- **ADK Ollama**: `@google/adk` TypeScript does not yet natively support Ollama. The Vercel AI SDK is used as a compatible alternative that satisfies both requirements.
-- **Streaming errors**: If Ollama stops mid-stream, the error surfaces in the chat UI but may not always have a descriptive message.
+- **Session storage**: Conversation history is held in browser memory (`useChat`). Refreshing the page clears the chat. A production system would persist sessions server-side (e.g. Redis).
+- **No authentication** on `POST /api/agent/chat`. In production this endpoint should require a valid admin session/JWT.
+- **ADK + Ollama compatibility**: `@google/adk` for TypeScript natively supports Gemini only. To satisfy both the ADK requirement and the Ollama requirement, this implementation uses the Vercel AI SDK as the execution layer (ADK conventions are followed: named tools, Zod schemas, system prompt) while `@google/adk` is installed as a dependency. An ADK-native implementation would require the ADK Python runtime or a Gemini API key.
+- **Partial refunds**: `refundOrder` issues a full-order refund. Line-item partial refunds are supported by the API but not exposed through the agent.
+- **Promotions / shipments**: These API endpoints exist but agent tools for them are not implemented — they were out of scope within the time budget.
+- **Multi-location inventory**: When adjusting or setting inventory, the agent targets the first available location automatically. Explicit location selection is not supported via natural language.
+- **LLM non-determinism**: With small models like qwen3:8b, occasional tool-argument hallucinations can occur (e.g. using `newStatus` instead of `status`). The tool schemas are designed to be forgiving, but a production deployment would benefit from a larger or fine-tuned model.
 
 ---
 
@@ -161,22 +177,25 @@ src/
     index.ts            # Ollama model factory, system prompt, tool registry, health check
     client.ts           # Typed HTTP client for store API
     tools/
-      orders.ts         # getOrderByNumber, updateOrderStatus, cancelOrder
+      orders.ts         # listOrders, getOrderStats, getOrderByNumber,
+                        # updateOrderStatus, cancelOrder, refundOrder, addOrderNote
       products.ts       # findProducts, updateProductDescription, updateProductPrice
+      inventory.ts      # getInventoryLevels, adjustInventory, setInventory,
+                        # getLowStockProducts
   routes/
     agent.ts            # POST /api/agent/chat — streamText + tool execution
     orders.ts           # Existing orders REST API
     products.ts         # Existing products REST API
     promotions.ts       # Existing promotions REST API
   __tests__/
-    agent.test.ts       # Unit tests for agent tools (mocked store client)
+    agent.test.ts       # Unit tests for all 14 agent tools (mocked store client)
     orders.test.ts      # Integration tests for orders API
     products.test.ts    # Integration tests for products API
 
 admin-chat/             # React chat app (AI SDK UI)
   src/
     main.tsx            # React entry point
-    ChatPanel.tsx       # useChat-powered chat interface
+    ChatPanel.tsx       # useChat-powered chat interface with graceful error handling
     ChatPanel.css       # Styles
   vite.config.ts        # Builds to public/admin/chat/
 
