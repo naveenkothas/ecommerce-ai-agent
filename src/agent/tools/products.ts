@@ -11,17 +11,23 @@ interface ProductListResponse {
 // ─── Standalone execute functions (exported for unit testing) ─────────────────
 
 export async function executeFindProducts(search: string) {
+  // Treat blank / list-all requests with a high limit and no search filter
+  const isListAll = !search.trim();
+  const url = isListAll
+    ? `/api/products?limit=50&sortBy=name&sortOrder=asc`
+    : `/api/products?search=${encodeURIComponent(search.trim())}&limit=20&sortBy=name&sortOrder=asc`;
+
   try {
-    const result = await storeClient.get<ProductListResponse>(
-      `/api/products?search=${encodeURIComponent(search)}&limit=10`
-    );
+    const result = await storeClient.get<ProductListResponse>(url);
     const products = result.data ?? [];
 
     if (products.length === 0) {
       return {
         success: true,
         products: [],
-        message: `No products found matching "${search}".`,
+        message: isListAll
+          ? 'No products found in the catalog.'
+          : `No products found matching "${search}".`,
       };
     }
 
@@ -156,9 +162,14 @@ export async function executeUpdateProductPrice(sku: string, price: number) {
 export const findProducts = tool({
   description:
     'Search for products by name, description, or SKU. ' +
-    'Use this to look up a product before updating it.',
+    'Pass an empty string ("") to list ALL products in the catalog. ' +
+    'Use this whenever the user asks to list products, show all SKUs, find a product, or look up a SKU before updating.',
   parameters: z.object({
-    search: z.string().describe('Search term — product name, description, or SKU'),
+    search: z
+      .string()
+      .describe(
+        'Search term (product name, description, or SKU). Pass empty string "" to list all products.'
+      ),
   }),
   execute: ({ search }) => executeFindProducts(search),
 });
