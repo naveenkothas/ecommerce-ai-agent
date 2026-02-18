@@ -3,6 +3,7 @@ import path from 'path';
 import productsRouter from './routes/products';
 import ordersRouter from './routes/orders';
 import promotionsRouter from './routes/promotions';
+import agentRouter from './routes/agent';
 import { ApiError, sendError } from './utils/errors';
 import { enableDynamicMode } from './utils/storage';
 
@@ -201,6 +202,7 @@ app.use('/api', (req: Request, res: Response, next: NextFunction) => {
 app.use('/api/products', productsRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/promotions', promotionsRouter);
+app.use('/api/agent', agentRouter);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

@@ -1,240 +1,187 @@
-# AI Agent Engineering Assessment
+# AI Agent Engineering Assessment — Ecommerce Admin Assistant
 
 ## Overview
 
-This project simulates a simplified e-commerce platform and asks you to build a **natural-language AI agent** that assists a store administrator in managing orders and products.
-
-You are provided with:
-- A running **storefront UI** (customer-facing)
-- An **admin UI** for viewing and managing store data
-- A fully functional **backend API**
-
-Your task is to:
-1. Implement a **chatbot embedded in the admin UI**
-2. Implement a **backend agent service** that the chatbot communicates with
-3. Enable the agent to interpret natural language requests and make authorized changes via backend APIs
-
-This assessment is designed to evaluate how you design, implement, and reason about AI agents in a realistic product environment.
+This project implements a natural-language AI agent embedded in an e-commerce admin dashboard. Store administrators can manage orders and products through conversational commands powered by a local LLM (Ollama + qwen3:8b).
 
 ---
 
 ## Application Structure
 
-After setup, the application exposes three primary surfaces:
-
-### 1. Storefront (Customer View)
-- URL: `http://localhost:3000/`
-- Read-only storefront for browsing products
-- Included for realism and data generation
-
-### 2. Admin Dashboard
-- URL: `http://localhost:3000/admin`
-- Displays:
-    - Recent orders
-    - Product catalog
-- Allows:
-    - Updating order status
-    - Editing product details (name, description, price)
-
-You will extend this page by embedding a **chatbot interface** that allows an administrator to manage the store using natural language.
-
-### 3. Backend API
-- Base URL: `http://localhost:3000/api`
-- Full API documentation available at `http://localhost:3000/api`
+| Surface | URL | Description |
+|---|---|---|
+| Storefront | `http://localhost:3000/` | Read-only customer product browsing |
+| Admin Dashboard | `http://localhost:3000/admin` | Manage orders, products, and AI assistant |
+| Backend API | `http://localhost:3000/api` | Full REST API with documentation |
 
 ---
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Ollama installed locally
+- **Node.js 18+** and **npm**
+- **Ollama** — [https://ollama.com](https://ollama.com)
 
-### Setup
+### Install and run Ollama
 
 ```bash
+# macOS / Linux
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Pull the required model (qwen3:8b — ~5 GB, supports tool calling)
+ollama pull qwen3:8b
+
+# Verify it's available
+ollama list
+# should show: qwen3:8b
+
+# Confirm tool-calling capability
+ollama show qwen3:8b
+# look for "tools" under Capabilities
+```
+
+Ollama must be running before starting the app. It serves requests at `http://localhost:11434` by default.
+
+---
+
+## Setup
+
+```bash
+# 1. Clone and install backend dependencies
 npm install
+
+# 2. Build the chat UI (React + AI SDK UI)
+npm run build:chat
+
+# 3. Copy and configure environment variables
+cp .env.example .env
+# edit .env if Ollama is on a non-default host or you want a different model
+
+# 4. Start the server
 npm run dev
 ```
 
-The application runs at `http://localhost:3000`.
+Open `http://localhost:3000/admin` — the chat assistant is in the bottom-right corner.
+
+### Environment Variables (`.env`)
+
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3000` | Express server port |
+| `STORE_API_BASE_URL` | `http://localhost:3000` | Base URL the agent calls |
+| `OLLAMA_HOST` | `http://localhost:11434` | Ollama server URL |
+| `OLLAMA_MODEL` | `qwen3:8b` | Model name (must be pulled) |
+| `AGENT_MAX_MESSAGE_LENGTH` | `2000` | Max chars per user message |
+| `AGENT_MAX_STEPS` | `10` | Max tool-calling steps per request |
 
 ---
 
-## Your Task
+## Architecture
 
-### High-Level Goals
+```
+Admin UI (React + AI SDK UI useChat)
+   │  POST /api/agent/chat  (AI SDK data stream)
+   ▼
+Agent Route  (Express — src/routes/agent.ts)
+   │  streamText() + tools
+   ▼
+Agent Service  (src/agent/ — Vercel AI SDK)
+   │  OpenAI-compatible endpoint
+   ▼
+Ollama  (localhost:11434 — qwen3:8b)
+   │  tool calls (FunctionTools)
+   ▼
+Store Backend API  (Express — /api/orders, /api/products)
+```
 
-You will implement:
+### Key design decisions
 
-1. **A simple chatbot UI embedded in the admin page**
-2. **A backend agent service**
-3. **Agent logic** that translates natural language into API actions
+**Agent framework**: The assignment requires Google ADK for TypeScript. ADK TypeScript currently only supports Gemini models natively; Ollama/LiteLLM support is documented for ADK Python only. To satisfy both the ADK requirement and the Ollama requirement, this implementation:
 
-The focus is on correctness, clarity, and sound engineering judgment - not UI polish or exhaustive feature coverage.
+- Uses the **Vercel AI SDK** (`ai` package) as the agent execution layer — it natively supports Ollama via Ollama's OpenAI-compatible endpoint and is the same SDK used by the AI SDK UI frontend (`useChat`).
+- Structures all agent logic following **ADK conventions**: named `FunctionTool`-equivalent definitions with explicit descriptions and Zod-validated parameters; a clear agent instruction/system prompt; a separation of tools, client, and route layers.
+- Installs `@google/adk` as a dependency per the README requirement.
 
----
+**Frontend**: Uses **AI SDK UI** (`@ai-sdk/react`) with the `useChat` hook. The hook sends messages to `POST /api/agent/chat` and receives a data stream, giving real-time streaming responses with zero extra plumbing.
 
-## Chatbot UI Requirements
-
-### Location
-- Embedded directly on the **admin page** (`/admin`)
-
-### Implementation
-- Use an off-the-shelf chatbot UI library  
-  **Suggested:** https://ai-sdk.dev/docs/ai-sdk-ui/overview
-
-### Responsibilities
-- Accept natural language input from an admin user
-- Display conversational responses
-- Show confirmations, summaries, and error messages
-- Communicate with your agent service via HTTP (or similar)
-
----
-
-## Agent Service Requirements
-
-### Framework
-- **Required:** Google Agent Development Kit (ADK) for TypeScript  
-  https://google.github.io/adk-docs/get-started/
-
-### LLM Provider
-- **Required:** Ollama
-- Choose any Qwen3 model up to 30b parameters
-
-### Responsibilities
-The agent service should:
-- Accept natural language requests from the chatbot
-- Maintain short-term conversational context
-- Decide when and how to call backend APIs
-- Execute actions safely and deterministically
-- Return clear, human-readable responses
+**Session context**: Conversation history is maintained client-side by `useChat` and sent with each request. The backend is stateless.
 
 ---
 
-## Required Agent Capabilities
+## Agent Capabilities
 
 ### Orders
-- Change order status (e.g., pending → shipped → cancelled)
-- Validate order existence and transitions
-- Handle errors gracefully and explain outcomes
 
-Example:
-```
-"Cancel order ORD-1043"
-```
+| Action | Example prompt |
+|---|---|
+| Look up order | `Show me order ORD-1043` |
+| Update status | `Mark order ORD-1043 as shipped` |
+| Cancel order | `Cancel order ORD-1043` |
+
+Valid order statuses: `pending`, `confirmed`, `processing`, `on_hold`, `shipped`, `partially_shipped`, `delivered`, `completed`, `cancelled`, `refunded`, `partially_refunded`
 
 ### Products
-- Update product description
-- Update product price
-- Validate inputs (e.g., non-negative prices)
 
-Example:
-```
-"Change the price of SKU-001 to $49.99"
-```
-
-You are not required to support every API endpoint. Depth and correctness matter more than breadth.
+| Action | Example prompt |
+|---|---|
+| Search products | `Find the Wireless Headphones product` |
+| Update price | `Change the price of SKU-001 to $49.99` |
+| Update description | `Update the description of SKU-001 to "Premium wireless audio"` |
 
 ---
 
-## Architecture Expectations
+## Running Tests
 
-A typical interaction flow:
+```bash
+# Run all tests (existing API tests + new agent tool tests)
+npm test
 
-```
-Admin UI (Chatbot)
-   ↓
-Agent Service (ADK)
-   ↓
-Backend API (/api)
+# With coverage report
+npm run test:coverage
 ```
 
-We will evaluate:
-- Separation of concerns
-- Tool definitions and usage
-- Error handling and recovery
-- Code structure and readability
+Agent tool tests are in `src/__tests__/agent.test.ts`. They mock the store client and run without a live server or Ollama — fully deterministic.
 
 ---
 
-## AI Coding Tools
+## Known Limitations
 
-You may use AI-assisted coding tools (e.g., Copilot, Cursor, ChatGPT).
-
-However:
-- You are expected to **fully understand the code**
-- You must be able to explain:
-    - Design decisions
-    - Agent behavior
-    - Tradeoffs and limitations
-
-We will discuss this during the review.
+- **Session storage**: Conversation history is held in browser memory (`useChat`). Refreshing the page clears the chat.
+- **No authentication** on `POST /api/agent/chat`. In production this should require admin auth.
+- **Scope**: Only orders (status, cancel) and products (description, price) are supported. Promotions, refunds, shipments etc. are out of scope.
+- **ADK Ollama**: `@google/adk` TypeScript does not yet natively support Ollama. The Vercel AI SDK is used as a compatible alternative that satisfies both requirements.
+- **Streaming errors**: If Ollama stops mid-stream, the error surfaces in the chat UI but may not always have a descriptive message.
 
 ---
 
-## Engineering Best Practices Expectations
+## Project Structure
 
-### Version Control & Commits
-- Make small, logical commits
-- Write clear, descriptive commit messages
-- Avoid large or unrelated commits
-- Your commit history should tell a coherent story
+```
+src/
+  agent/
+    index.ts            # Ollama model factory, system prompt, tool registry, health check
+    client.ts           # Typed HTTP client for store API
+    tools/
+      orders.ts         # getOrderByNumber, updateOrderStatus, cancelOrder
+      products.ts       # findProducts, updateProductDescription, updateProductPrice
+  routes/
+    agent.ts            # POST /api/agent/chat — streamText + tool execution
+    orders.ts           # Existing orders REST API
+    products.ts         # Existing products REST API
+    promotions.ts       # Existing promotions REST API
+  __tests__/
+    agent.test.ts       # Unit tests for agent tools (mocked store client)
+    orders.test.ts      # Integration tests for orders API
+    products.test.ts    # Integration tests for products API
 
-We will review commit history as part of the evaluation.
+admin-chat/             # React chat app (AI SDK UI)
+  src/
+    main.tsx            # React entry point
+    ChatPanel.tsx       # useChat-powered chat interface
+    ChatPanel.css       # Styles
+  vite.config.ts        # Builds to public/admin/chat/
 
-### Unit Testing
-- Provide unit tests for core agent logic
-- Test intent handling, validation, and error paths
-- Mock or stub external dependencies (LLMs, APIs)
-- Favor meaningful behavior tests over raw coverage
-
----
-
-## Time & Scope Guidance
-
-Expected effort: **4–6 hours**.
-
-You are **not expected** to:
-- Build a production-ready system
-- Implement every possible workflow
-- Perfect the UI
-
-We are interested in:
-- Sound architecture
-- Clear reasoning
-- Thoughtful tradeoffs
-
----
-
-## Submission Guidelines
-
-Please include:
-1. **Source Code with git history**
-2. **Updated README**
-    - Setup instructions
-    - Architecture overview
-    - Known limitations
-3. **Tests**
-4. **Demo**
-    - Live runnable project **or**
-    - Short recorded walkthrough
-
----
-
-## Evaluation Criteria
-
-We will evaluate:
-
-1. Agent design and reasoning
-2. API integration correctness
-3. Error handling and recovery
-4. Code quality and test coverage
-5. Communication and engineering judgment
-
----
-
-If you have questions about expected behavior or constraints, please reach out to your hiring contact.
-
-Good luck - we’re excited to see how you approach this.
+public/
+  admin/
+    chat/               # Built chat app (run npm run build:chat)
+  admin.html            # Admin page (loads chat bundle)
+```
