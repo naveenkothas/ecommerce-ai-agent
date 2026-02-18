@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { streamText, type CoreMessage } from 'ai';
+import { streamText, type CoreMessage, InvalidToolArgumentsError } from 'ai';
 import { agentTools, checkOllamaHealth, createOllamaModel, SYSTEM_PROMPT } from '../agent';
 
 const router = Router();
@@ -67,11 +67,23 @@ router.post('/chat', async (req: Request, res: Response): Promise<void> => {
       tools: agentTools,
       maxSteps: MAX_STEPS,
       onError: ({ error }) => {
-        console.error('[Agent] Streaming error:', error);
+        if (error instanceof InvalidToolArgumentsError) {
+          // LLM sent wrong arg names — log the mismatch, stream will self-recover on retry
+          console.warn(
+            '[Agent] InvalidToolArgumentsError for tool "%s": %s',
+            error.toolName,
+            error.message,
+          );
+        } else {
+          console.error('[Agent] Streaming error:', error);
+        }
       },
     });
 
-    result.pipeDataStreamToResponse(res);
+    result.pipeDataStreamToResponse(res, {
+      getErrorMessage: () =>
+        'The assistant encountered an unexpected error. Please try again.',
+    });
   } catch (err: unknown) {
     const e = err as { message?: string };
     console.error('[Agent] Failed to start stream:', e.message);

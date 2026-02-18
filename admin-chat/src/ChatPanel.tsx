@@ -38,10 +38,16 @@ const CLOSE_ICON = (
 );
 
 const EXAMPLE_PROMPTS = [
-  'Show me the latest orders',
-  'Cancel order ORD-1001',
-  'Change price of SKU-001 to $29.99',
-  'Update description for product "Headphones"',
+  'Show me all pending orders',
+  'What is our total revenue and how many orders?',
+  'How many units of HP-BLK-001 are in stock?',
+  'Which products are running low on stock?',
+  'Mark order ORD-1003 as shipped',
+  'Check the details of order ORD-1004',
+  'Change the price of RS-GRY-9 to $129.99',
+  'We received 50 units of TS-NVY-M — add them to inventory',
+  'Cancel order ORD-1008, customer changed their mind',
+  'What is the stock level for the Smart Fitness Watch?',
 ];
 
 function TypingIndicator() {
@@ -59,11 +65,43 @@ function TypingIndicator() {
   );
 }
 
+function friendlyError(err: Error): string {
+  const msg = err?.message ?? '';
+  if (
+    msg.includes('503') ||
+    msg.includes('AGENT_UNAVAILABLE') ||
+    msg.toLowerCase().includes('ollama') ||
+    msg.toLowerCase().includes('unavailable')
+  ) {
+    return 'The assistant is currently offline. Please ensure Ollama is running and try again.';
+  }
+  if (msg.toLowerCase().includes('too long')) {
+    return 'Your message is too long. Please shorten it and try again.';
+  }
+  if (msg.toLowerCase().includes('rate limit') || msg.includes('429')) {
+    return 'Too many requests. Please wait a moment and try again.';
+  }
+  return 'Something went wrong. Please try again.';
+}
+
 export default function ChatPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearError = () => {
+    setErrorMsg(null);
+    if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+  };
+
+  const showError = (msg: string) => {
+    setErrorMsg(msg);
+    if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+    errorTimerRef.current = setTimeout(() => setErrorMsg(null), 8000);
+  };
 
   const {
     messages,
@@ -71,18 +109,23 @@ export default function ChatPanel() {
     handleInputChange,
     handleSubmit,
     isLoading,
-    error,
     setMessages,
     setInput,
   } = useChat({
     api: '/api/agent/chat',
     onError: (err) => {
       console.error('[Chat] Error:', err);
+      showError(friendlyError(err));
     },
     onFinish: () => {
       if (!isOpen) setHasUnread(true);
     },
   });
+
+  const wrappedHandleSubmit = (e: React.FormEvent) => {
+    clearError();
+    handleSubmit(e);
+  };
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -110,7 +153,7 @@ export default function ChatPanel() {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (input.trim() && !isLoading) {
-        handleSubmit(e as unknown as React.FormEvent);
+        wrappedHandleSubmit(e as unknown as React.FormEvent);
       }
     }
   };
@@ -163,7 +206,7 @@ export default function ChatPanel() {
             <div className="ac-welcome">
               <div className="ac-welcome__icon">{BOT_ICON}</div>
               <h3>Hi! I'm your store assistant.</h3>
-              <p>I can help you manage orders and products. Try asking:</p>
+              <p>I can help you manage orders, products, and inventory. Try asking:</p>
               <div className="ac-examples">
                 {EXAMPLE_PROMPTS.map((prompt) => (
                   <button
@@ -179,17 +222,12 @@ export default function ChatPanel() {
           ) : (
             messages.map((msg) => {
               const isUser = msg.role === 'user';
-              const content =
-                typeof msg.content === 'string'
-                  ? msg.content
-                  : Array.isArray(msg.content)
-                    ? msg.content
-                        .filter((p) => p.type === 'text')
-                        .map((p) => ('text' in p ? p.text : ''))
-                        .join('')
-                    : '';
+              // useChat always provides string content; cast defensively
+              const content: string = typeof msg.content === 'string' ? msg.content : '';
 
               if (!content && msg.role === 'assistant') return null;
+
+              const lines = content.split('\n');
 
               return (
                 <div
@@ -202,10 +240,10 @@ export default function ChatPanel() {
                   <div
                     className={`ac-bubble ${isUser ? 'ac-bubble--user' : 'ac-bubble--assistant'}`}
                   >
-                    {content.split('\n').map((line, i) => (
+                    {lines.map((line: string, i: number) => (
                       <span key={i}>
                         {line}
-                        {i < content.split('\n').length - 1 && <br />}
+                        {i < lines.length - 1 && <br />}
                       </span>
                     ))}
                   </div>
@@ -221,12 +259,17 @@ export default function ChatPanel() {
 
           {isLoading && <TypingIndicator />}
 
-          {error && (
-            <div className="ac-error">
-              <strong>Error:</strong>{' '}
-              {error.message.includes('503') || error.message.includes('AGENT_UNAVAILABLE')
-                ? 'Agent unavailable — ensure Ollama is running.'
-                : error.message || 'Something went wrong. Please try again.'}
+          {errorMsg && (
+            <div className="ac-notice">
+              <span className="ac-notice__icon">⚠</span>
+              <span className="ac-notice__text">{errorMsg}</span>
+              <button
+                className="ac-notice__dismiss"
+                onClick={clearError}
+                aria-label="Dismiss"
+              >
+                ✕
+              </button>
             </div>
           )}
 
@@ -234,7 +277,7 @@ export default function ChatPanel() {
         </div>
 
         {/* Input area */}
-        <form className="ac-input-area" onSubmit={handleSubmit}>
+        <form className="ac-input-area" onSubmit={wrappedHandleSubmit}>
           <input
             ref={inputRef}
             className="ac-input"

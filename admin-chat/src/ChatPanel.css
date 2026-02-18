@@ -225,6 +225,9 @@
   gap: 6px;
   width: 100%;
   margin-top: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 2px;
 }
 
 .ac-example-btn {
@@ -331,16 +334,47 @@
   30%           { transform: translateY(-6px); opacity: 1; }
 }
 
-/* ── Error ─────────────────────────────────────────────────────────────────── */
-.ac-error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 10px 14px;
+/* ── Notice (replaces hard error) ──────────────────────────────────────────── */
+.ac-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #78350f;
+  padding: 10px 12px;
   border-radius: 10px;
   font-size: 0.82rem;
   line-height: 1.5;
   animation: ac-fade-in 0.2s ease;
+  margin: 0 2px;
+}
+
+.ac-notice__icon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  margin-top: 1px;
+}
+
+.ac-notice__text {
+  flex: 1;
+}
+
+.ac-notice__dismiss {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #92400e;
+  font-size: 0.75rem;
+  padding: 0 2px;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.ac-notice__dismiss:hover {
+  opacity: 1;
 }
 
 /* ── Input area ────────────────────────────────────────────────────────────── */
